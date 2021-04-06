@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"log"
 	"os"
 
@@ -20,16 +21,17 @@ func init() {
 func main() {
 	client := dg.New(dg.Config{
 		BotToken: Token,
-		// Intents:  32509,
 	})
 	gateway := client.Gateway()
 	defer gateway.StayConnectedUntilInterrupted()
+
+	fmt.Println("DABABY IS ONLINE, LES GOOOO. PRESS CTRL+C TO PUT HIM TO SLEEP")
 
 	gateway.MessageCreate(func(s dg.Session, m *dg.MessageCreate) {
 		if m.Message.Content == "!db" {
 			var (
 				channelID dg.Snowflake
-				guildID   = m.Message.GuildID
+				guildID   dg.Snowflake = m.Message.GuildID
 			)
 
 			guildChannels, err := s.Guild(guildID).GetChannels()
@@ -38,7 +40,7 @@ func main() {
 			}
 
 			for _, channel := range guildChannels {
-				if channel.Type == dg.ChannelTypeGuildVoice {
+				if channel.Type != dg.ChannelTypeGuildVoice {
 					break
 				}
 
@@ -54,7 +56,7 @@ func main() {
 				}
 			}
 
-			audioFile, err := os.Open("./lesGooo.mp3")
+			audioFile, err := os.Open("./lesGooo.dca")
 			if err != nil {
 				log.Fatal(err)
 			}
