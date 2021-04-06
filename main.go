@@ -20,7 +20,8 @@ func init() {
 
 func main() {
 	client := dg.New(dg.Config{
-		BotToken: Token,
+		BotToken:     Token,
+		DisableCache: true,
 	})
 
 	gateway := client.Gateway()
