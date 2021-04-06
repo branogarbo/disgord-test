@@ -22,10 +22,13 @@ func main() {
 	client := dg.New(dg.Config{
 		BotToken: Token,
 	})
+
 	gateway := client.Gateway()
 	defer gateway.StayConnectedUntilInterrupted()
 
-	fmt.Println("DABABY IS ONLINE, LES GOOOO. PRESS CTRL+C TO PUT HIM TO SLEEP")
+	gateway.BotReady(func() {
+		fmt.Println("DABABY IS ONLINE, LES GOOOO. PRESS CTRL+C TO PUT HIM TO SLEEP")
+	})
 
 	gateway.MessageCreate(func(s dg.Session, m *dg.MessageCreate) {
 		if m.Message.Content == "!db" {
